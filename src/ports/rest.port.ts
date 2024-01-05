@@ -17,9 +17,15 @@ export class ExpressRestPort implements ExpressRestPortInterface {
     }
 
     public start(port: number) {
-        this.server.get("/cards", (_, res) => {
-            this.cardsUseCase.getAllCards("test")
-            res.send("Hello ddaVite + TypeScript!");
+        this.server.use(express.json());
+
+        this.server.get("/cards", async (req, res) => {
+            if (typeof req.query.tag === "string" ) 
+            res.send(JSON.stringify(await this.cardsUseCase.getAllCards(req.query.tag)));
+        });
+
+        this.server.post("/cards", async (req, res) => {
+            res.send(JSON.stringify(await this.cardsUseCase.createCard(req.body as CardsUseCase.Create)))
         });
 
 
