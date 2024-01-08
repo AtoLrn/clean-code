@@ -8,6 +8,7 @@ export interface CardRepository {
     createCard(props: Card.Create): Promise<Card> | Card
     getCardsByUsers(user: User, tag?: string): Promise<Card[]> | Card[]
     updateCard(card: Card): Promise<Card> | Card
+    getById(cardId: string): Promise<Card> | Card
 }
 
 @injectable()
@@ -15,7 +16,7 @@ export class CardMemoryRepository implements CardRepository {
     @inject(TYPES.UuidService) private uuidService: UuidService;
     private cards: Card[] = []
 
-    createCard({ question, answer, tag, user}: Card.Create) {
+    public createCard({ question, answer, tag, user}: Card.Create) {
         const id = this.uuidService.generateUuid()
         const card = new Card(id, question, answer, user.id, Card.Category.FIRST,tag)
         this.cards.push(card)
@@ -23,20 +24,30 @@ export class CardMemoryRepository implements CardRepository {
     }
 
 
-    getCardsByUsers(user: User, tag?: string): Card[] | Promise<Card[]> {
+    public getCardsByUsers(user: User, tag?: string): Card[] | Promise<Card[]> {
         return this.cards.filter((card) => user.id === card.userId && (tag ? card.tag === tag : true  ))
     }
 
-    updateCard(card: Card): Promise<Card> | Card {
-        const storedCard = this.cards.find<Card>((storedCard) => {
-            return storedCard.id === card.id
-        })
+    public updateCard(card: Card): Promise<Card> | Card {
+        console.log([...this.cards], card)
+        const oldCard = this.cards.find((storedCard) => storedCard.id === card.id)
 
-        if (!card) {
+        if (!oldCard) {
             throw new Error('Card not found')
         }
 
-        storedCard.category === card.category
+        oldCard.category === card.category
+
+        return card
+    }
+
+    public getById(cardId: string): Card | Promise<Card> {
+        const card = this.cards.find((card) => card.id === cardId)
+
+        if (!card) {
+            console.log('Cannot find card')
+            throw new Error('Card not found')
+        }
 
         return card
     }

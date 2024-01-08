@@ -10,7 +10,7 @@ import { CardLegacyService, CardService } from "./services/card.services";
 const container = new Container();
 container.bind<CardsUseCaseInterface>(TYPES.CardUseCase).to(CardsUseCase);
 container.bind<ExpressRestPortInterface>(TYPES.ExpressRestPort).to(ExpressRestPort);
-container.bind<CardRepository>(TYPES.CardRepository).to(CardMemoryRepository);
+container.bind<CardRepository>(TYPES.CardRepository).to(CardMemoryRepository).inSingletonScope();
 container.bind<UserRepository>(TYPES.UserRepository).to(UserMemoryRepository);
 container.bind<UuidService>(TYPES.UuidService).to(UuidRandomService);
 container.bind<CardService>(TYPES.CardService).to(CardLegacyService);

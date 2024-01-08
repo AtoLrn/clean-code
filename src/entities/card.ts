@@ -11,7 +11,7 @@ export class Card {
             id: this.id,
             question: this.question,
             answer: this.answer,
-            category: 'FIRST',
+            category: this.category,
             tag: this.tag
         }
     }

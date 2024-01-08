@@ -4,11 +4,13 @@ import { TYPES } from "../infrastructure";
 import { CardRepository } from "../repositories/card.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { CardService } from "../services/card.services";
+import { NotFoundError } from "../entities/not-found";
 
 export interface CardsUseCaseInterface {
     getAllCards(tag?: string): Promise<Card[]>
     createCard(props: CardsUseCase.Create): Promise<Card>
     getCardForDate(date: Date): Promise<Card[]>
+    answerCard(cardId: string, isValid: boolean): Promise<Card>
 }
 
 @injectable()
@@ -42,6 +44,21 @@ export class CardsUseCase implements CardsUseCaseInterface {
         const cards = await this.cardRepository.getCardsByUsers(user)
 
         return cards.filter((card) => this.cardService.isCardSelected(card, date))
+    }
+
+    public async answerCard(cardId: string, isValid: boolean): Promise<Card> {
+        try {
+            const card = await this.cardRepository.getById(cardId)
+
+            if (isValid) {
+                return await this.cardService.validateCard(card)
+            } else {
+                return await this.cardService.unvalidateCard(card)
+            }
+            
+        } catch {
+            throw new NotFoundError('Card not found')
+        }
     }
     
 }

@@ -7,10 +7,12 @@ import { CardRepository } from "../repositories/card.repository";
 export interface CardService {
     isCardSelected(card: Card, date: Date): boolean
     validateCard(card: Card): Promise<Card>
+    unvalidateCard(card: Card): Promise<Card>
 }
 
 @injectable()
 export class CardLegacyService implements CardService {
+
     @inject(TYPES.CardRepository) private cardRepository: CardRepository;
     
     isCardSelected(card: Card, date: Date): boolean {
@@ -53,5 +55,11 @@ export class CardLegacyService implements CardService {
 
         return await this.cardRepository.updateCard(card)
         
+    }
+
+    async unvalidateCard(card: Card): Promise<Card> {
+        card.category = Card.Category.FIRST
+
+        return await this.cardRepository.updateCard(card)
     }
 }

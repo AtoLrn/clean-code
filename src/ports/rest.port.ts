@@ -2,6 +2,7 @@ import { CardsUseCase, CardsUseCaseInterface } from "../use-cases/cards.use-case
 import express from 'express';
 import { inject, injectable } from "inversify";
 import { TYPES } from "../infrastructure";
+import { NotFoundError } from "../entities/not-found";
 
 export interface ExpressRestPortInterface {
     start(port: number): void
@@ -26,6 +27,20 @@ export class ExpressRestPort implements ExpressRestPortInterface {
             }
 
             res.send(JSON.stringify(await this.cardsUseCase.getCardForDate(new Date(date as string))))
+        });
+
+        this.server.patch("/cards/:id/answer", async (req, res) => {
+            try {
+                const isValid = req.body.isValid as boolean
+                console.log(isValid)
+    
+                res.send(JSON.stringify(await this.cardsUseCase.answerCard(req.params.id, isValid)))
+            } catch (e) {
+                console.log(e)
+                if (e instanceof NotFoundError) {
+                    res.sendStatus(404)
+                }
+            }
         });
 
         this.server.get("/cards", async (req, res) => {
