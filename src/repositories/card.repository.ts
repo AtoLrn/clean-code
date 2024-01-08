@@ -1,18 +1,23 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Card } from "../entities/card";
 import { User } from "../entities/user";
+import { TYPES } from "../infrastructure";
+import { UuidService } from "../services/uuid.services";
 
 export interface CardRepository {
     createCard(props: Card.Create): Promise<Card> | Card
     getCardsByUsers(user: User, tag?: string): Promise<Card[]> | Card[]
+    updateCard(card: Card): Promise<Card> | Card
 }
 
 @injectable()
 export class CardMemoryRepository implements CardRepository {
+    @inject(TYPES.UuidService) private uuidService: UuidService;
     private cards: Card[] = []
 
     createCard({ question, answer, tag, user}: Card.Create) {
-        const card = new Card(question, answer, user.id, tag)
+        const id = this.uuidService.generateUuid()
+        const card = new Card(id, question, answer, user.id, Card.Category.FIRST,tag)
         this.cards.push(card)
         return card
     }
@@ -21,13 +26,18 @@ export class CardMemoryRepository implements CardRepository {
     getCardsByUsers(user: User, tag?: string): Card[] | Promise<Card[]> {
         return this.cards.filter((card) => user.id === card.userId && (tag ? card.tag === tag : true  ))
     }
-}
 
-export namespace Card {
-    export interface Create {
-        question: string,
-        answer: string,
-        tag?: string
-        user: User
+    updateCard(card: Card): Promise<Card> | Card {
+        const storedCard = this.cards.find<Card>((storedCard) => {
+            return storedCard.id === card.id
+        })
+
+        if (!card) {
+            throw new Error('Card not found')
+        }
+
+        storedCard.category === card.category
+
+        return card
     }
 }
