@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  workflow_run:
+    workflows: ["Linting"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get node_modules cache
+        uses: actions/cache@v3
+        with:
+          restore-keys: |
+            ${{ hashFiles('package.json') }}
+          key: ${{ hashFiles('package.json') }}
+          path: |
+            node_modules
+      - name: Installs Deps
+        run: npm install
+      - name: Installs Deps
+        run: npm run build

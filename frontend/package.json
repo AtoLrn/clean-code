@@ -1,0 +1,37 @@
+{
+  "name": "remix-template",
+  "version": "1.0.0",
+  "description": "A Remix Template",
+  "main": "index.js",
+  "scripts": {
+    "dev": "remix dev",
+    "build": "remix build",
+    "start": "remix-serve build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix ./src"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remix-run/express": "^2.2.0",
+    "@remix-run/node": "^2.2.0",
+    "@remix-run/react": "^2.2.0",
+    "@remix-run/serve": "^2.2.0",
+    "express": "^4.18.2",
+    "framer-motion": "^10.16.4",
+    "isbot": "latest",
+    "react-icons": "^4.11.0",
+    "zod": "^3.22.4",
+    "zodix": "^0.4.4"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.2.0",
+    "@remix-run/eslint-config": "^2.0.1",
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.10",
+    "eslint": "^8.53.0",
+    "eslint-plugin-import": "^2.29.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.0"
+  }
+}
