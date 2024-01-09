@@ -45,7 +45,6 @@ export class CardMemoryRepository implements CardRepository {
         const card = this.cards.find((card) => card.id === cardId)
 
         if (!card) {
-            console.log('Cannot find card')
             throw new Error('Card not found')
         }
 
