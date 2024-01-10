@@ -6,6 +6,7 @@ import { UserMemoryRepository, UserRepository } from "./repositories/user.reposi
 import { CardsUseCase, CardsUseCaseInterface } from "./use-cases/cards.use-case";
 import { UuidRandomService, UuidService } from "./services/uuid.services";
 import { CardLegacyService, CardService } from "./services/card.services";
+import { DateService, IDate } from "./services/date.services";
 
 const container = new Container();
 container.bind<CardsUseCaseInterface>(TYPES.CardUseCase).to(CardsUseCase);
@@ -14,6 +15,7 @@ container.bind<CardRepository>(TYPES.CardRepository).to(CardMemoryRepository).in
 container.bind<UserRepository>(TYPES.UserRepository).to(UserMemoryRepository);
 container.bind<UuidService>(TYPES.UuidService).to(UuidRandomService);
 container.bind<CardService>(TYPES.CardService).to(CardLegacyService);
+container.bind<IDate>(TYPES.DateService).to(DateService);
 
 
 export { container };

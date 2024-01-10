@@ -5,5 +5,6 @@ export const TYPES = {
     UserRepository: Symbol.for('UserRepository'),
     CardRepository: Symbol.for('CardRepository'),
     UuidService: Symbol.for('UuidService'),
-    CardService: Symbol.for('CardService')
+    CardService: Symbol.for('CardService'),
+    DateService: Symbol.for('DateService')
 }

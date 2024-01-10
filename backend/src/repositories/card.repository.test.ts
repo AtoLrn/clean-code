@@ -14,7 +14,7 @@ describe('CardMemoryRepository', () => {
       answer: 'answer',
       question: 'question',
       tag: 'tag',
-      user: new User('user')
+      user: new User('user', new Date())
     })
 
     expect(card.category).toBe(Card.Category.FIRST)
