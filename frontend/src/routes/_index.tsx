@@ -1,25 +1,36 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import { LoaderFunctionArgs, json } from '@remix-run/node'
+import { useLoaderData, useRevalidator } from '@remix-run/react'
 import { useState } from 'react'
 import { CardStack } from 'src/components/CardStack'
+
+export interface Cards {
+	id: string
+	question: string,
+	answer: string,
+	tag?: string,
+}
 
 export async function loader({request}: LoaderFunctionArgs) {
 	const url = new URL(request.url)
 	const date = url.searchParams.get('date')
 	const req = await fetch(`http://localhost:8080/cards/quizz?date=${date}`)
-	const res = await req.json()
+	const res = await req.json() as Cards[]
 
-	console.log(res)
-	return json({ questions: res })
+	const reqCards = await fetch('http://localhost:8080/cards')
+	const resCards = await reqCards.json() as Cards[]
+	return json({ cardsForDate: res, cards: resCards })
 } 
 
 export default function MainPage() { 
+	const revalidator = useRevalidator()
+	const { cardsForDate, cards } = useLoaderData<typeof loader>()
 	const [ question, setQuestion ] = useState('')
 	const [ answer, setAnswer ] = useState('')
 	const [ tag, setTag ] = useState('')
 
 	const onSubmit = async () => {
-		const req = await fetch('http://localhost:8080/cards', {
+		await fetch('http://localhost:8080/cards', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -34,6 +45,8 @@ export default function MainPage() {
 		setQuestion('')
 		setAnswer('')
 		setTag('')
+
+		revalidator.revalidate()
 	}
 
 	return (
@@ -78,30 +91,16 @@ export default function MainPage() {
 							</AlertDialog.Content>
 						</AlertDialog.Portal>
 					</AlertDialog.Root>
-
+					<div className='flex flex-col items-center gap-2 w-full'>
+						{ cards.map((card) => {
+							return <div className='w-full rounded-lg bg-slate-200 flex px-6 py-2 gap-2 items-center'><span>{card.question}</span> { card.tag && <span className='text-xs px-2 py-1 rounded-md bg-opacity-30 border bg-green-500 border-green-500'>{card.tag}</span>}</div>
+						})}
+					</div>
+					
 				</div>
 				<div className='flex-1 flex items-center justify-center'>
-					<CardStack questions={[{
-						question: 'Quand est nez Lucas?',
-						answer: 'Je sais pas :(',
-						tag: 'Boufon',
-						id: 'xxx-xxx'
-					}, {
-						question: 'Quand est nez Lucas?2',
-						answer: 'Je sais pas :(2',
-						tag: 'Boufon2',
-						id: 'xxx-xxx2'
-					}, {
-						question: 'Quand est nez Lucas?2',
-						answer: 'Je sais pas :(2',
-						tag: 'Boufon2',
-						id: 'xxx-xxx3'
-					}, {
-						question: 'Quand est nez Lucas?2',
-						answer: 'Je sais pas :(2',
-						tag: 'Boufon2',
-						id: 'xxx-xxx4'
-					}]}/>
+					{ cardsForDate.length === 0 && <h1 className='text-lg'>Sorry, no questions for today...</h1> }
+					{ cardsForDate.length > 0 && <CardStack questions={cardsForDate}/> }
 				</div>
 				
 			</div>

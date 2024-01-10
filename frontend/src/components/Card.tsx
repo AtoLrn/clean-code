@@ -55,7 +55,7 @@ export const Card: React.FC<CardProps> = ({ question, answer, tag, onSubmit }) =
 				
 			<h1 className='text-xl'>{question}</h1>
 			{ tag && <span className='text-xs px-2 py-1 rounded-md bg-opacity-30 border bg-green-500 border-green-500'>{tag}</span>}
-			<span className='c cursor-pointer' onClick={() => setRevealed(!isRevelead)}>{ !isRevelead ? '********' : answer}</span>
+			<span className='cursor-pointer' onClick={() => setRevealed(!isRevelead)}>{ !isRevelead ? '********' : answer}</span>
 
 			<m.span style={{
 				opacity

@@ -42,7 +42,7 @@ export class CardsUseCase implements CardsUseCaseInterface {
     public async getCardForDate(date: Date = new Date()): Promise<Card[]> {
         const user = await this.userRepository.getUserById('user-1')
 
-        if(this.dateService.compareDate(date, user.lastQuizz) !== 1) return []
+        if(this.dateService.compareDate(date, user.lastQuizz) !== -1) return []
 
         const cards = await this.cardRepository.getCardsByUsers(user)
         

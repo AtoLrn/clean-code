@@ -11,6 +11,15 @@ export const CardStack: React.FC<CardStack> = ({ questions }) => {
 
 	const onSubmit = (id: string, isValid: boolean) => {
 		setAnsweredIds((ids) => [...ids, id])
+		fetch(`http://localhost:8080/cards/${id}/answer`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				isValid,
+			})
+		})
 	}
 
 	return <div className='relative flex items-center justify-center'>

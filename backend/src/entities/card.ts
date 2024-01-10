@@ -4,6 +4,7 @@ export class Card {
     public createdAt: Date
     constructor(public id: string, public question: string, public answer: string, public userId: string, public category: Card.Category = Card.Category.FIRST, public tag?: string) {
         this.createdAt = new Date()
+        this.createdAt.setHours(0, 0, 0)
     }
 
     toJSON() {
