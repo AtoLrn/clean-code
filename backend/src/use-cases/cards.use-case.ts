@@ -22,13 +22,13 @@ export class CardsUseCase implements CardsUseCaseInterface {
     
     
     public async getAllCards(tag?: string) {
-        const user = await this.userRepository.getUser('antoine')
+        const user = await this.userRepository.getUserById('user-1')
 
         return await this.cardRepository.getCardsByUsers(user, tag)
     }
 
     public async createCard({ question, answer, tag }: CardsUseCase.Create): Promise<Card> {
-        const user = await this.userRepository.getUser('antoine')
+        const user = await this.userRepository.getUserById('user-1')
 
         return this.cardRepository.createCard({
             question,
@@ -39,9 +39,12 @@ export class CardsUseCase implements CardsUseCaseInterface {
     }
 
     public async getCardForDate(date: Date = new Date()): Promise<Card[]> {
-        const user = await this.userRepository.getUser('antoine')
+        const user = await this.userRepository.getUserById('user-1')
 
         const cards = await this.cardRepository.getCardsByUsers(user)
+
+        
+        this.userRepository.updateUser(user)
 
         return cards.filter((card) => this.cardService.isCardSelected(card, date))
     }

@@ -11,7 +11,7 @@ export default function MainPage() {
 		<main className='min-h-screen min-w-full bg-white text-black flex flex-col items-center gap-4 relative'>
 			<nav className='w-full h-12 bg-red-50 flex items-center'>
 				<div className='container mx-auto flex items-center justify-between'>
-					<h1 className='text-lg'>Remeber</h1>
+					<h1 className='text-lg'>Remember</h1>
 					<div>
 						<button>X</button>
 					</div>

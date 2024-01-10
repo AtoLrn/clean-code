@@ -5,19 +5,32 @@ import { CardRepository } from "./card.repository";
 
 export interface UserRepository {
     getUsers(): Promise<User[]> | User[]
-    getUser(id: string): Promise<User> | User
+    getUserById(userId: string): Promise<User> | User 
+    updateUser(user: User): Promise<User> | User
 }
 
 @injectable()
 export class UserMemoryRepository implements UserRepository {
-    getUsers(): User[] {
-        const user = new User('user-1')
+    private users: User[] = []
 
-        return [user]
+    getUsers(): User[] {
+        return this.users
     }
 
-    getUser(id: string): User {
-        return new User(id)
+    getUserById(userId: string): User {
+        const user = this.users.find((user) => user.id === userId)
+
+        if(!user) {
+            const newUser = new User('user-1', new Date())
+            this.users.push(user)
+
+            return newUser
+        }
+
+        return user
     }
     
+    updateUser(user: User): User {
+        return user
+    }
 }

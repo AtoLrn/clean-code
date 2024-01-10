@@ -23,7 +23,6 @@ export class CardMemoryRepository implements CardRepository {
         return card
     }
 
-
     public getCardsByUsers(user: User, tag?: string): Card[] | Promise<Card[]> {
         return this.cards.filter((card) => user.id === card.userId && (tag ? card.tag === tag : true  ))
     }
