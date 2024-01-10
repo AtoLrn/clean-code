@@ -54,7 +54,6 @@ export class CardLegacyService implements CardService {
         }
 
         return await this.cardRepository.updateCard(card)
-        
     }
 
     async unvalidateCard(card: Card): Promise<Card> {

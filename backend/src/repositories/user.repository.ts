@@ -27,16 +27,16 @@ export class UserMemoryRepository implements UserRepository {
     }
 
     getUserById(userId: string): User {
-        const user = this.users.find((user) => user.id === userId)
+        const dbUser = this.users.find((user) => user.id === userId)
 
-        if(!user) {
+        if(!dbUser) {
             const newUser = new User('user-1', new Date())
-            this.users.push(user)
+            this.users.push(newUser)
 
             return newUser
         }
 
-        return user
+        return dbUser
     }
     
     updateUser(user: User): User {
