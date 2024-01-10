@@ -1,9 +1,10 @@
 import { inject, injectable } from "inversify";
 import { User } from "../entities/user";
+import { UuidService } from "../services/uuid.services";
 import { TYPES } from "../infrastructure";
-import { CardRepository } from "./card.repository";
 
 export interface UserRepository {
+    createUser(): Promise<User> | User
     getUsers(): Promise<User[]> | User[]
     getUserById(userId: string): Promise<User> | User 
     updateUser(user: User): Promise<User> | User
@@ -11,7 +12,15 @@ export interface UserRepository {
 
 @injectable()
 export class UserMemoryRepository implements UserRepository {
+    @inject(TYPES.UuidService) private uuidService: UuidService;
     private users: User[] = []
+
+    public createUser(): User {
+        const id = this.uuidService.generateUuid()
+        const user = new User(id, new Date())
+        this.users.push(user)
+        return user
+    }
 
     getUsers(): User[] {
         return this.users
