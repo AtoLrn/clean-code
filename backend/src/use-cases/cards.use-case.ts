@@ -4,6 +4,7 @@ import { TYPES } from "../infrastructure";
 import { CardRepository } from "../repositories/card.repository";
 import { UserRepository } from "../repositories/user.repository";
 import { CardService } from "../services/card.services";
+import { IDate } from "../services/date.services";
 import { NotFoundError } from "../entities/not-found";
 
 export interface CardsUseCaseInterface {
@@ -16,10 +17,10 @@ export interface CardsUseCaseInterface {
 @injectable()
 export class CardsUseCase implements CardsUseCaseInterface {
     @inject(TYPES.CardService) private cardService: CardService;
+    @inject(TYPES.DateService) private dateService : IDate;
 
     @inject(TYPES.CardRepository) private cardRepository: CardRepository;
     @inject(TYPES.UserRepository) private userRepository: UserRepository;
-    
     
     public async getAllCards(tag?: string) {
         const user = await this.userRepository.getUserById('user-1')
@@ -41,8 +42,9 @@ export class CardsUseCase implements CardsUseCaseInterface {
     public async getCardForDate(date: Date = new Date()): Promise<Card[]> {
         const user = await this.userRepository.getUserById('user-1')
 
-        const cards = await this.cardRepository.getCardsByUsers(user)
+        if(this.dateService.compareDate(date, user.lastQuizz) !== 1) return []
 
+        const cards = await this.cardRepository.getCardsByUsers(user)
         
         this.userRepository.updateUser(user)
 

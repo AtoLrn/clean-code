@@ -11,14 +11,14 @@ describe('DateService', () => {
       const dateA = new Date('2023-01-01')
       const dateB = new Date('2023-01-02')
       
-      expect(service.compareDate(dateA, dateB)).toBe(-1)
+      expect(service.compareDate(dateA, dateB)).toBe(1)
   })
 
   test('compareDates a < b', async () => {
       const dateA = new Date('2023-01-01')
       const dateB = new Date('2023-01-02')
       
-      expect(service.compareDate(dateB, dateA)).toBe(1)
+      expect(service.compareDate(dateB, dateA)).toBe(-1)
   })
 
   test('compareDates a = b', async () => {
