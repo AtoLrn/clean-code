@@ -1,5 +1,6 @@
 import { CardsUseCase, CardsUseCaseInterface } from "../use-cases/cards.use-case";
 import express from 'express';
+import cors from 'cors'
 import { inject, injectable } from "inversify";
 import { TYPES } from "../infrastructure";
 import { NotFoundError } from "../entities/not-found";
@@ -18,6 +19,7 @@ export class ExpressRestPort implements ExpressRestPortInterface {
     }
 
     public start(port: number) {
+        this.server.use(cors());
         this.server.use(express.json());
 
         this.server.get("/cards/quizz", async (req, res) => {
