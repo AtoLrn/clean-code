@@ -19,5 +19,4 @@ export class DateService implements IDate {
         
         return 0
     }
-    
 }

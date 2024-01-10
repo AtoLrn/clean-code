@@ -31,16 +31,16 @@ export class CardLegacyService implements CardService {
         if (card.category === Card.Category.FOURTH && dayDifference >= 8) { return true }
         if (card.category === Card.Category.FIFTH && dayDifference >= 16) { return true }
         if (card.category === Card.Category.SIXTH && dayDifference >= 32) { return true }
-        if (card.category === Card.Category.SEVEN && dayDifference >= 64) { return true }
+        if (card.category === Card.Category.SEVENTH && dayDifference >= 64) { return true }
         
         return false
     } 
     
     async validateCard(card: Card): Promise<Card> {
-        if (card.category === Card.Category.SEVEN) {
+        if (card.category === Card.Category.SEVENTH) {
             card.category = Card.Category.DONE
         } else if (card.category === Card.Category.SIXTH ) {
-            card.category = Card.Category.SEVEN
+            card.category = Card.Category.SEVENTH
         } else if (card.category === Card.Category.FIFTH ) {
             card.category = Card.Category.SIXTH
         } else if (card.category === Card.Category.FOURTH ) {

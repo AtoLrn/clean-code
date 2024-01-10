@@ -7,14 +7,14 @@ import { TYPES } from '../infrastructure';
 describe('DateService', () => {
   const service = container.get<IDate>(TYPES.DateService);
 
-  test('compareDates a > b', async () => {
+  test('compareDates a < b', async () => {
       const dateA = new Date('2023-01-01')
       const dateB = new Date('2023-01-02')
       
       expect(service.compareDate(dateA, dateB)).toBe(1)
   })
 
-  test('compareDates a < b', async () => {
+  test('compareDates a > b', async () => {
       const dateA = new Date('2023-01-01')
       const dateB = new Date('2023-01-02')
       
@@ -33,5 +33,33 @@ describe('DateService', () => {
       const dateB = new Date('2023-01-01T15:00:00')
       
       expect(service.compareDate(dateA, dateB)).toBe(0)
+  })
+
+  test('compareDates a < b year', async () => {
+      const dateA = new Date('2023-01-01')
+      const dateB = new Date('2024-01-01')
+      
+      expect(service.compareDate(dateA, dateB)).toBe(1)
+  })
+
+  test('compareDates a > b year', async () => {
+      const dateA = new Date('2024-01-01')
+      const dateB = new Date('2023-01-01')
+      
+      expect(service.compareDate(dateA, dateB)).toBe(-1)
+  })
+
+  test('compareDates a < b month', async () => {
+      const dateA = new Date('2023-01-01')
+      const dateB = new Date('2023-02-01')
+      
+      expect(service.compareDate(dateA, dateB)).toBe(1)
+  })
+
+  test('compareDates a > b month', async () => {
+      const dateA = new Date('2023-02-01')
+      const dateB = new Date('2023-01-01')
+      
+      expect(service.compareDate(dateA, dateB)).toBe(-1)
   })
 })

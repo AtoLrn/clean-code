@@ -32,7 +32,7 @@ export namespace Card {
         FOURTH = 'FOURTH',
         FIFTH = 'FIFTH',
         SIXTH = 'SIXTH',
-        SEVEN = 'SEVEN',
+        SEVENTH = 'SEVENTH',
         DONE = 'DONE'
     }
 }
