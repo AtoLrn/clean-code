@@ -1,6 +1,6 @@
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import { LoaderFunctionArgs, json } from '@remix-run/node'
-import { useLoaderData, useRevalidator } from '@remix-run/react'
+import { useLoaderData, useNavigate, useRevalidator } from '@remix-run/react'
 import { useState } from 'react'
 import { CardStack } from 'src/components/CardStack'
 
@@ -23,6 +23,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 } 
 
 export default function MainPage() { 
+	const navigate = useNavigate()
 	const revalidator = useRevalidator()
 	const { cardsForDate, cards } = useLoaderData<typeof loader>()
 	const [ question, setQuestion ] = useState('')
@@ -98,7 +99,10 @@ export default function MainPage() {
 					</div>
 					
 				</div>
-				<div className='flex-1 flex items-center justify-center'>
+				<div className='flex-1 flex flex-col items-center justify-center gap-2'>
+					<input onChange={(e) => {
+						navigate(`/?date=${e.currentTarget.value}`)
+					}} className='w-full bg-opacity-50 rounded-lg bg-slate-200 flex px-6 py-2 gap-2 items-center' type="date" name="" id="" />
 					{ cardsForDate.length === 0 && <h1 className='text-lg'>Sorry, no questions for today...</h1> }
 					{ cardsForDate.length > 0 && <CardStack questions={cardsForDate}/> }
 				</div>

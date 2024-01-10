@@ -22,12 +22,12 @@ export const CardStack: React.FC<CardStack> = ({ questions }) => {
 		})
 	}
 
-	return <div className='relative flex items-center justify-center'>
+	return <div className='relative flex items-center justify-center mt-12'>
 		<AnimatePresence mode='sync'>
 		
 			{ questions.filter(({ id }) => !answeredIds.includes(id)).map(({id, question, answer, tag}, index, arr) => {
 				return <m.div 
-					className='absolute top-0 left-0'
+					className='absolute top-0 m-auto'
 					style={{ zIndex: index }}
 					key={id}
 					initial={{ transform: 'translateY(30%)', opacity: 0}}
