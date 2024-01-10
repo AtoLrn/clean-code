@@ -53,7 +53,7 @@ export class CardsUseCase implements CardsUseCaseInterface {
 
     public async answerCard(cardId: string, isValid: boolean): Promise<Card> {
         try {
-            const card = await this.cardRepository.getById(cardId)
+            const card = await this.cardRepository.getCardById(cardId)
 
             if (isValid) {
                 return await this.cardService.validateCard(card)

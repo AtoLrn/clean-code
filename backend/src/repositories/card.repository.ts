@@ -8,7 +8,7 @@ export interface CardRepository {
     createCard(props: Card.Create): Promise<Card> | Card
     getCardsByUsers(user: User, tag?: string): Promise<Card[]> | Card[]
     updateCard(card: Card): Promise<Card> | Card
-    getById(cardId: string): Promise<Card> | Card
+    getCardById(cardId: string): Promise<Card> | Card
 }
 
 @injectable()
@@ -28,19 +28,18 @@ export class CardMemoryRepository implements CardRepository {
     }
 
     public updateCard(card: Card): Promise<Card> | Card {
-        console.log([...this.cards], card)
         const oldCard = this.cards.find((storedCard) => storedCard.id === card.id)
 
         if (!oldCard) {
             throw new Error('Card not found')
         }
 
-        oldCard.category === card.category
+        oldCard.category = card.category
 
         return card
     }
 
-    public getById(cardId: string): Card | Promise<Card> {
+    public getCardById(cardId: string): Card | Promise<Card> {
         const card = this.cards.find((card) => card.id === cardId)
 
         if (!card) {
