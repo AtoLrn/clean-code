@@ -1,5 +1,5 @@
 import { AnimatePresence, motion as m } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardProps } from './Card'
 
 export interface CardStack {
@@ -21,6 +21,10 @@ export const CardStack: React.FC<CardStack> = ({ questions }) => {
 			})
 		})
 	}
+
+	useEffect(() => {
+		setAnsweredIds([])
+	}, [questions])
 
 	return <div className='relative flex items-center justify-center mt-12'>
 		<AnimatePresence mode='sync'>
