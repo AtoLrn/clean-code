@@ -43,6 +43,17 @@ describe('CardUseCase', () => {
       expect(cards.length).toBe(0)
   })
 
+  test('getCardForDate less than next day not date input', async () => {
+      await useCase.createCard({
+        question: 'question',
+        answer: 'answer'
+      } as CardsUseCase.Create)
+
+      const cards = await useCase.getCardForDate()
+
+      expect(cards.length).toBe(0)
+  })
+
   test('getCardForDate next day', async () => {
       await useCase.createCard({
         question: 'question',

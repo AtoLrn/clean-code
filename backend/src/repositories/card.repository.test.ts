@@ -5,6 +5,7 @@ import { User } from "../entities/user";
 import { TYPES } from "../infrastructure";
 import { container } from "../inversify.config";
 import { CardRepository } from "./card.repository";
+import { NotFoundError } from '../entities/not-found';
 
 describe('CardMemoryRepository', () => {
   const repository = container.get<CardRepository>(TYPES.CardRepository);
@@ -68,7 +69,7 @@ describe('CardMemoryRepository', () => {
 
     expect(() => {
         repository.updateCard(card2)
-    }).toThrow(new Error('Card not found'))
+    }).toThrow(new NotFoundError('Card not found'))
   })
 
   test('getById', async () => {
@@ -87,6 +88,6 @@ describe('CardMemoryRepository', () => {
   test('getById error case', async () => {
     expect(() => {
         repository.getCardById('id')
-    }).toThrow(new Error('Card not found'))
+    }).toThrow(new NotFoundError('Card not found'))
   })
 })

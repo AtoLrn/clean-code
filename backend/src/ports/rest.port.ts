@@ -25,7 +25,7 @@ export class ExpressRestPort implements ExpressRestPortInterface {
         this.server.get("/cards/quizz", async (req, res) => {
             const date = req.query.date
             if (!date) {
-                res.sendStatus(400)
+                return res.sendStatus(400)
             }
 
             res.send(JSON.stringify(await this.cardsUseCase.getCardForDate(new Date(date as string))))
@@ -34,14 +34,10 @@ export class ExpressRestPort implements ExpressRestPortInterface {
         this.server.patch("/cards/:id/answer", async (req, res) => {
             try {
                 const isValid = req.body.isValid as boolean
-                console.log(isValid)
     
                 res.send(JSON.stringify(await this.cardsUseCase.answerCard(req.params.id, isValid)))
             } catch (e) {
-                console.log(e)
-                if (e instanceof NotFoundError) {
-                    res.sendStatus(404)
-                }
+                res.sendStatus(404)
             }
         });
 
@@ -57,9 +53,6 @@ export class ExpressRestPort implements ExpressRestPortInterface {
         this.server.post("/cards", async (req, res) => {
             res.send(JSON.stringify(await this.cardsUseCase.createCard(req.body as CardsUseCase.Create)))
         });
-
-        
-
 
         this.server.listen(port, () => {
             console.log('LISTENING')

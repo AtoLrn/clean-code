@@ -3,6 +3,7 @@ import { Card } from "../entities/card";
 import { User } from "../entities/user";
 import { TYPES } from "../infrastructure";
 import { UuidService } from "../services/uuid.services";
+import { NotFoundError } from "../entities/not-found";
 
 export interface CardRepository {
     createCard(props: Card.Create): Promise<Card> | Card
@@ -31,7 +32,7 @@ export class CardMemoryRepository implements CardRepository {
         const oldCard = this.cards.find((storedCard) => storedCard.id === card.id)
 
         if (!oldCard) {
-            throw new Error('Card not found')
+            throw new NotFoundError('Card not found')
         }
 
         oldCard.category = card.category
@@ -43,7 +44,7 @@ export class CardMemoryRepository implements CardRepository {
         const card = this.cards.find((card) => card.id === cardId)
 
         if (!card) {
-            throw new Error('Card not found')
+            throw new NotFoundError('Card not found')
         }
 
         return card
