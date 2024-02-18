@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify"
 import { Card } from "../entities/card";
 import { TYPES } from "../infrastructure";
-import { CardRepository } from "../repositories/card.repository";
-import { UserRepository } from "../repositories/user.repository";
-import { CardService } from "../services/card.services";
+import { ICardRepository } from "../repositories/card.repository";
+import { IUserRepository } from "../repositories/user.repository";
+import { ICardService } from "../services/card.services";
 import { IDate } from "../services/date.services";
 import { NotFoundError } from "../entities/not-found";
 
-export interface CardsUseCaseInterface {
+export interface ICardsUseCase {
     getAllCards(tag?: string): Promise<Card[]>
     createCard(props: CardsUseCase.Create): Promise<Card>
     getCardForDate(date: Date): Promise<Card[]>
@@ -15,12 +15,12 @@ export interface CardsUseCaseInterface {
 }
 
 @injectable()
-export class CardsUseCase implements CardsUseCaseInterface {
-    @inject(TYPES.CardService) private cardService: CardService;
+export class CardsUseCase implements ICardsUseCase {
+    @inject(TYPES.CardService) private cardService: ICardService;
     @inject(TYPES.DateService) private dateService : IDate;
 
-    @inject(TYPES.CardRepository) private cardRepository: CardRepository;
-    @inject(TYPES.UserRepository) private userRepository: UserRepository;
+    @inject(TYPES.CardRepository) private cardRepository: ICardRepository;
+    @inject(TYPES.UserRepository) private userRepository: IUserRepository;
     
     public async getAllCards(tag?: string) {
         const user = await this.userRepository.getUserById('user-1')

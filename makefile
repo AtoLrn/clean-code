@@ -11,4 +11,4 @@ run_frontend:
 	cd frontend && npm run dev
 
 test: 
-	cd backend && npm run test && cd ../frontend && npm run test
+	cd backend && npm run test

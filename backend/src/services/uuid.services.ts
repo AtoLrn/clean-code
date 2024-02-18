@@ -1,12 +1,12 @@
 import { injectable } from "inversify";
 import { v4 as uuidv4 } from 'uuid';
 
-export interface UuidService {
+export interface IUuidService {
     generateUuid(): string
 }
 
 @injectable()
-export class UuidRandomService implements UuidService {
+export class UuidService implements IUuidService {
     generateUuid(): string {
         return uuidv4()
     }

@@ -1,17 +1,17 @@
-import { CardsUseCase, CardsUseCaseInterface } from "../use-cases/cards.use-case";
+import { CardsUseCase, ICardsUseCase } from "../use-cases/cards.use-case";
 import express from 'express';
 import cors from 'cors'
 import { inject, injectable } from "inversify";
 import { TYPES } from "../infrastructure";
 import { NotFoundError } from "../entities/not-found";
 
-export interface ExpressRestPortInterface {
+export interface IExpressRestPort {
     start(port: number): void
 }
 
 @injectable()
-export class ExpressRestPort implements ExpressRestPortInterface {
-    @inject(TYPES.CardUseCase) private cardsUseCase: CardsUseCaseInterface;
+export class ExpressRestPort implements IExpressRestPort {
+    @inject(TYPES.CardUseCase) private cardsUseCase: ICardsUseCase;
     
     private server: express.Express
     constructor() {

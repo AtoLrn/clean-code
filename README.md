@@ -15,3 +15,9 @@ Start the project
 Run the test and the covering
 
 `make test`
+
+
+## Schemas
+
+![architecture](./schemas/architecture.png)
+![layer](./schemas/layer.png)

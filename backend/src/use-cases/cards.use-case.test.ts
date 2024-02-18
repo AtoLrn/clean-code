@@ -3,13 +3,13 @@ import 'reflect-metadata'; // MANDATORY AS WE USE THIS FOR INJECTION
 import { container } from "../inversify.config";
 import { TYPES } from '../infrastructure';
 import { CardsUseCase } from './cards.use-case';
-import { UserRepository } from '../repositories/user.repository';
+import { IUserRepository } from '../repositories/user.repository';
 import { Card } from '../entities/card';
 import { NotFoundError } from '../entities/not-found';
 
 describe('CardUseCase', () => {
   const useCase = container.get<CardsUseCase>(TYPES.CardUseCase);
-  const repository = container.get<UserRepository>(TYPES.UserRepository);
+  const repository = container.get<IUserRepository>(TYPES.UserRepository);
 
   test('createCard', async () => {
       const card = await useCase.createCard({

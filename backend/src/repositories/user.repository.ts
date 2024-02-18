@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
 import { User } from "../entities/user";
-import { UuidService } from "../services/uuid.services";
+import { IUuidService } from "../services/uuid.services";
 import { TYPES } from "../infrastructure";
 
-export interface UserRepository {
+export interface IUserRepository {
     createUser(): Promise<User> | User
     getUsers(): Promise<User[]> | User[]
     getUserById(userId: string): Promise<User> | User 
@@ -11,8 +11,8 @@ export interface UserRepository {
 }
 
 @injectable()
-export class UserMemoryRepository implements UserRepository {
-    @inject(TYPES.UuidService) private uuidService: UuidService;
+export class UserMemoryRepository implements IUserRepository {
+    @inject(TYPES.UuidService) private uuidService: IUuidService;
     private users: User[] = []
 
     public createUser(): User {

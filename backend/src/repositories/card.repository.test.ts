@@ -4,11 +4,11 @@ import { Card } from "../entities/card";
 import { User } from "../entities/user";
 import { TYPES } from "../infrastructure";
 import { container } from "../inversify.config";
-import { CardRepository } from "./card.repository";
+import { ICardRepository } from "./card.repository";
 import { NotFoundError } from '../entities/not-found';
 
 describe('CardMemoryRepository', () => {
-  const repository = container.get<CardRepository>(TYPES.CardRepository);
+  const repository = container.get<ICardRepository>(TYPES.CardRepository);
 
   let user: User
 

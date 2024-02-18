@@ -2,18 +2,18 @@ import { inject, injectable } from "inversify";
 import { v4 as uuidv4 } from 'uuid';
 import { Card } from "../entities/card";
 import { TYPES } from "../infrastructure";
-import { CardRepository } from "../repositories/card.repository";
+import { ICardRepository } from "../repositories/card.repository";
 
-export interface CardService {
+export interface ICardService {
     isCardSelected(card: Card, date: Date): boolean
     validateCard(card: Card): Promise<Card>
     unvalidateCard(card: Card): Promise<Card>
 }
 
 @injectable()
-export class CardLegacyService implements CardService {
+export class CardService implements ICardService {
 
-    @inject(TYPES.CardRepository) private cardRepository: CardRepository;
+    @inject(TYPES.CardRepository) private cardRepository: ICardRepository;
     
     isCardSelected(card: Card, date: Date): boolean {
         if (card.category === Card.Category.DONE) { return false}

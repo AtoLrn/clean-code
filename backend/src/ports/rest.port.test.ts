@@ -2,14 +2,14 @@ import 'reflect-metadata'; // MANDATORY AS WE USE THIS FOR INJECTION
 
 import { TYPES } from "../infrastructure";
 import { container } from "../inversify.config";
-import {ExpressRestPortInterface} from './rest.port';
-import {CardRepository} from '../repositories/card.repository';
+import {IExpressRestPort} from './rest.port';
+import {ICardRepository} from '../repositories/card.repository';
 import { User } from '../entities/user';
 import { Card } from "../entities/card";
 
 describe('RestPort', () => {
-  const server = container.get<ExpressRestPortInterface>(TYPES.ExpressRestPort);
-  const repository = container.get<CardRepository>(TYPES.CardRepository);
+  const server = container.get<IExpressRestPort>(TYPES.ExpressRestPort);
+  const repository = container.get<ICardRepository>(TYPES.CardRepository);
 
   beforeAll(() => {
     server.start(8080)

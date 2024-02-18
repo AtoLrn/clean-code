@@ -3,14 +3,14 @@ import 'reflect-metadata'; // MANDATORY AS WE USE THIS FOR INJECTION
 import { TYPES } from "../infrastructure";
 import { User } from "../entities/user";
 import { container } from "../inversify.config";
-import { UserRepository } from './user.repository';
+import { IUserRepository } from './user.repository';
 
 describe('CardMemoryRepository', () => {
-  let repository: UserRepository
+  let repository: IUserRepository
 
   beforeEach(() => {
     // to re init repository each time and purge previously created users
-    repository = container.get<UserRepository>(TYPES.UserRepository);
+    repository = container.get<IUserRepository>(TYPES.UserRepository);
   })
 
   test('createUser', async () => {

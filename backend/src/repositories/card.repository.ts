@@ -2,10 +2,10 @@ import { inject, injectable } from "inversify";
 import { Card } from "../entities/card";
 import { User } from "../entities/user";
 import { TYPES } from "../infrastructure";
-import { UuidService } from "../services/uuid.services";
+import { IUuidService } from "../services/uuid.services";
 import { NotFoundError } from "../entities/not-found";
 
-export interface CardRepository {
+export interface ICardRepository {
     createCard(props: Card.Create): Promise<Card> | Card
     getCardsByUsers(user: User, tag?: string): Promise<Card[]> | Card[]
     updateCard(card: Card): Promise<Card> | Card
@@ -13,8 +13,8 @@ export interface CardRepository {
 }
 
 @injectable()
-export class CardMemoryRepository implements CardRepository {
-    @inject(TYPES.UuidService) private uuidService: UuidService;
+export class CardMemoryRepository implements ICardRepository {
+    @inject(TYPES.UuidService) private uuidService: IUuidService;
     private cards: Card[] = []
 
     public createCard({ question, answer, tag, user}: Card.Create) {

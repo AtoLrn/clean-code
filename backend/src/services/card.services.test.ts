@@ -2,14 +2,14 @@ import 'reflect-metadata'; // MANDATORY AS WE USE THIS FOR INJECTION
 
 import { container } from "../inversify.config";
 import { TYPES } from '../infrastructure';
-import { CardService } from './card.services';
-import { CardRepository } from '../repositories/card.repository';
+import { ICardService } from './card.services';
+import { ICardRepository } from '../repositories/card.repository';
 import { Card } from '../entities/card';
 import { User } from '../entities/user';
 
 describe('CardService', () => {
-  const service = container.get<CardService>(TYPES.CardService);
-  const repository = container.get<CardRepository>(TYPES.CardRepository);
+  const service = container.get<ICardService>(TYPES.CardService);
+  const repository = container.get<ICardRepository>(TYPES.CardRepository);
 
   let card: Card
 
