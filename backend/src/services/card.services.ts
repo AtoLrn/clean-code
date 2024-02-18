@@ -24,16 +24,7 @@ export class CardLegacyService implements CardService {
 
         const dayDifference = Math.round(timestampDifference / (1000 * 3600 * 24))
 
-
-        if (card.category === Card.Category.FIRST && dayDifference >= 1) { return true }
-        if (card.category === Card.Category.SECOND && dayDifference >= 2) { return true }
-        if (card.category === Card.Category.THIRD && dayDifference >= 4) { return true }
-        if (card.category === Card.Category.FOURTH && dayDifference >= 8) { return true }
-        if (card.category === Card.Category.FIFTH && dayDifference >= 16) { return true }
-        if (card.category === Card.Category.SIXTH && dayDifference >= 32) { return true }
-        if (card.category === Card.Category.SEVENTH && dayDifference >= 64) { return true }
-        
-        return false
+        return dayDifference >= Card.CategoryDuration[card.category]
     } 
     
     async validateCard(card: Card): Promise<Card> {

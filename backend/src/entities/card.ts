@@ -1,3 +1,4 @@
+import { DurationInDay } from "../@types/TimeInDay"
 import { User } from "./user"
 
 export class Card {
@@ -35,5 +36,16 @@ export namespace Card {
         SIXTH = 'SIXTH',
         SEVENTH = 'SEVENTH',
         DONE = 'DONE'
+    }
+
+    export const CategoryDuration: Record<Category, DurationInDay> = {
+        [Category.FIRST]: 1,
+        [Category.SECOND]: 2,
+        [Category.THIRD]: 4,
+        [Category.FOURTH]: 8,
+        [Category.FIFTH]: 16,
+        [Category.SIXTH]: 32,
+        [Category.SEVENTH]: 64,
+        [Category.DONE]: -1
     }
 }
